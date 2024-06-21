@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysqldb
+    networks:
+      - my-network
+
+  mysqldb:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/piappdb
+      MYSQL_DATABASE: piappdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: oLEga_orange_2021
+      MYSQL_ROOT_PASSWORD: oLEga_orange_2021
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - my-network
+
+volumes:
+  mysql-data:
+    driver: local
+networks:
+  my-network:
+    driver: bridge
