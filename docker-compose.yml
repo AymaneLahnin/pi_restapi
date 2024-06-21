@@ -8,20 +8,24 @@ services:
       - 8080:8080
     depends_on:
       - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/piappdb?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: oLEga_orange_2021
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: com.mysql.cj.jdbc.Driver
     networks:
       - my-network
 
   mysqldb:
     image: mysql:8.0
     restart: always
-    ports:
-      - 3307:3306
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/piappdb
       MYSQL_DATABASE: piappdb
       MYSQL_USER: root
       MYSQL_PASSWORD: oLEga_orange_2021
       MYSQL_ROOT_PASSWORD: oLEga_orange_2021
+    ports:
+      - 3307:3306
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
@@ -30,6 +34,7 @@ services:
 volumes:
   mysql-data:
     driver: local
+
 networks:
   my-network:
     driver: bridge
